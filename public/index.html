@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI-Powered Business Building | Build the Tools Your Business Needs</title>
+<meta name="description" content="A hands-on program teaching business owners how to use AI coding tools to build internal tools, automations, and systems — without hiring a dev team.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --navy: #0b1120;
+  --navy-light: #131b2e;
+  --navy-mid: #1a2540;
+  --slate: #1e293b;
+  --accent: #06b6d4;
+  --accent-glow: #22d3ee;
+  --accent-dark: #0891b2;
+  --white: #f1f5f9;
+  --gray: #94a3b8;
+  --gray-light: #cbd5e1;
+  --green: #34d399;
+  --purple: #a78bfa;
+  --orange: #fb923c;
+  --section-pad: clamp(60px, 10vw, 120px);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--navy);
+  color: var(--white);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ---- Utility ---- */
+.container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+.section-label {
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+.section-title {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 20px;
+}
+.section-subtitle {
+  font-size: 1.1rem;
+  color: var(--gray);
+  max-width: 640px;
+  line-height: 1.7;
+}
+
+/* Animations */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.35s; }
+.reveal-delay-5 { transition-delay: 0.4s; }
+
+/* ---- NAV ---- */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 16px 0;
+  background: rgba(11, 17, 32, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(6, 182, 212, 0.08);
+  transition: padding 0.3s;
+}
+nav.scrolled { padding: 10px 0; }
+nav .container { display: flex; align-items: center; justify-content: space-between; }
+.nav-brand {
+  font-weight: 800;
+  font-size: 1.15rem;
+  color: var(--white);
+  text-decoration: none;
+}
+.nav-brand span { color: var(--accent); }
+.nav-links { display: flex; gap: 28px; align-items: center; list-style: none; }
+.nav-links a {
+  color: var(--gray);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: color 0.25s;
+}
+.nav-links a:hover { color: var(--white); }
+.nav-cta {
+  background: var(--accent);
+  color: var(--navy) !important;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-weight: 600 !important;
+  transition: background 0.25s, transform 0.2s !important;
+}
+.nav-cta:hover { background: var(--accent-glow); transform: translateY(-1px); }
+
+.hamburger {
+  display: none; background: none; border: none; cursor: pointer;
+  flex-direction: column; gap: 5px; padding: 4px;
+}
+.hamburger span {
+  display: block; width: 24px; height: 2px; background: var(--white);
+  border-radius: 2px; transition: transform 0.3s, opacity 0.3s;
+}
+
+/* ---- HERO ---- */
+.hero {
+  min-height: 100vh;
+  display: flex; align-items: center;
+  padding: var(--section-pad) 0;
+  padding-top: calc(var(--section-pad) + 60px);
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 70% 50% at 60% 30%, rgba(6,182,212,0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 60% at 20% 80%, rgba(167,139,250,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(6,182,212,0.1);
+  border: 1px solid rgba(6,182,212,0.2);
+  border-radius: 100px;
+  padding: 6px 16px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 24px;
+}
+.hero-badge .dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--green);
+  animation: pulse-dot 2s infinite;
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+.hero h1 {
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: 24px;
+}
+.hero h1 .highlight {
+  background: linear-gradient(135deg, var(--accent), var(--purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero p {
+  font-size: 1.15rem;
+  color: var(--gray-light);
+  line-height: 1.7;
+  margin-bottom: 36px;
+  max-width: 520px;
+}
+.hero-buttons { display: flex; gap: 16px; flex-wrap: wrap; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 32px;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  transition: transform 0.25s, box-shadow 0.25s, background 0.25s;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn-primary {
+  background: var(--accent);
+  color: var(--navy);
+  box-shadow: 0 4px 24px rgba(6,182,212,0.25);
+}
+.btn-primary:hover { background: var(--accent-glow); box-shadow: 0 8px 32px rgba(6,182,212,0.35); }
+.btn-outline {
+  background: transparent;
+  color: var(--white);
+  border: 1.5px solid rgba(255,255,255,0.15);
+}
+.btn-outline:hover { border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.04); }
+
+/* Hero visual */
+.hero-visual {
+  position: relative;
+  display: flex; justify-content: center; align-items: center;
+}
+.code-window {
+  background: var(--navy-light);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 14px;
+  overflow: hidden;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.4);
+}
+.code-window-bar {
+  display: flex; align-items: center; gap: 8px;
+  padding: 12px 16px;
+  background: rgba(255,255,255,0.03);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.code-window-bar .dot-r { width: 11px; height: 11px; border-radius: 50%; background: #ef4444; }
+.code-window-bar .dot-y { width: 11px; height: 11px; border-radius: 50%; background: #eab308; }
+.code-window-bar .dot-g { width: 11px; height: 11px; border-radius: 50%; background: #22c55e; }
+.code-window-bar .title { margin-left: 12px; font-size: 0.78rem; color: var(--gray); }
+.code-body {
+  padding: 24px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.85rem;
+  line-height: 1.8;
+  color: var(--gray);
+  min-height: 220px;
+}
+.code-body .kw { color: var(--purple); }
+.code-body .fn { color: var(--accent-glow); }
+.code-body .str { color: var(--green); }
+.code-body .cm { color: #475569; font-style: italic; }
+.typing-cursor {
+  display: inline-block;
+  width: 8px; height: 17px;
+  background: var(--accent);
+  margin-left: 2px;
+  animation: blink 1s step-end infinite;
+  vertical-align: text-bottom;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+/* ---- PROBLEM ---- */
+.problem {
+  padding: var(--section-pad) 0;
+  background: var(--navy-light);
+  border-top: 1px solid rgba(255,255,255,0.04);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.problem-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+.pain-list { list-style: none; display: flex; flex-direction: column; gap: 20px; margin-top: 32px; }
+.pain-item {
+  display: flex; gap: 16px; align-items: flex-start;
+  padding: 20px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 12px;
+  transition: border-color 0.3s, background 0.3s;
+}
+.pain-item:hover { border-color: rgba(6,182,212,0.2); background: rgba(6,182,212,0.03); }
+.pain-icon {
+  flex-shrink: 0;
+  width: 42px; height: 42px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 10px;
+  font-size: 1.2rem;
+}
+.pain-icon.red { background: rgba(239,68,68,0.12); color: #f87171; }
+.pain-icon.yellow { background: rgba(234,179,8,0.12); color: #facc15; }
+.pain-icon.blue { background: rgba(6,182,212,0.12); color: var(--accent); }
+.pain-item h4 { font-weight: 700; font-size: 1rem; margin-bottom: 4px; }
+.pain-item p { color: var(--gray); font-size: 0.92rem; }
+
+.solution-box {
+  background: linear-gradient(135deg, rgba(6,182,212,0.08), rgba(167,139,250,0.06));
+  border: 1px solid rgba(6,182,212,0.15);
+  border-radius: 16px;
+  padding: 40px;
+}
+.solution-box h3 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-bottom: 16px;
+}
+.solution-box p {
+  color: var(--gray-light);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+.check-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.check-list li {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 0.95rem; color: var(--gray-light);
+}
+.check-list li::before {
+  content: '\2713';
+  display: flex; align-items: center; justify-content: center;
+  width: 22px; height: 22px; flex-shrink: 0;
+  border-radius: 50%;
+  background: rgba(52,211,153,0.15);
+  color: var(--green);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+/* ---- CURRICULUM ---- */
+.curriculum { padding: var(--section-pad) 0; }
+.curriculum .section-subtitle { margin-bottom: 48px; }
+.week-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.week-card {
+  background: var(--navy-light);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 14px;
+  padding: 32px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s, transform 0.3s;
+}
+.week-card:hover { border-color: rgba(6,182,212,0.2); transform: translateY(-4px); }
+.week-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--purple));
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.week-card:hover::before { opacity: 1; }
+.week-number {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  background: rgba(6,182,212,0.1);
+  color: var(--accent);
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+.week-icon {
+  font-size: 1.6rem;
+  margin-bottom: 14px;
+  display: block;
+}
+.week-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; }
+.week-card p { color: var(--gray); font-size: 0.9rem; line-height: 1.6; }
+
+/* ---- BUILD ---- */
+.build {
+  padding: var(--section-pad) 0;
+  background: var(--navy-light);
+  border-top: 1px solid rgba(255,255,255,0.04);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.build .section-subtitle { margin-bottom: 48px; }
+.build-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+.build-item {
+  text-align: center;
+  padding: 36px 24px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.05);
+  transition: border-color 0.3s, transform 0.3s;
+}
+.build-item:hover { border-color: rgba(6,182,212,0.2); transform: translateY(-3px); }
+.build-icon {
+  font-size: 2.2rem;
+  margin-bottom: 16px;
+  display: block;
+}
+.build-item h4 { font-weight: 700; font-size: 1rem; margin-bottom: 6px; }
+.build-item p { color: var(--gray); font-size: 0.85rem; }
+
+/* ---- PRICING ---- */
+.pricing { padding: var(--section-pad) 0; text-align: center; }
+.pricing .section-subtitle { margin: 0 auto 48px; }
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  align-items: stretch;
+}
+.price-card {
+  background: var(--navy-light);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 16px;
+  padding: 40px 32px;
+  text-align: left;
+  position: relative;
+  transition: border-color 0.3s, transform 0.3s;
+}
+.price-card:hover { transform: translateY(-4px); }
+.price-card.featured {
+  border-color: var(--accent);
+  background: linear-gradient(180deg, rgba(6,182,212,0.06) 0%, var(--navy-light) 50%);
+}
+.price-badge {
+  position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+  background: var(--accent);
+  color: var(--navy);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 5px 18px;
+  border-radius: 100px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.price-card h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; }
+.price-card .price-desc { color: var(--gray); font-size: 0.9rem; margin-bottom: 24px; }
+.price-amount {
+  font-size: 2.6rem;
+  font-weight: 900;
+  margin-bottom: 28px;
+}
+.price-amount span { font-size: 0.9rem; font-weight: 400; color: var(--gray); }
+.price-features { list-style: none; display: flex; flex-direction: column; gap: 14px; margin-bottom: 32px; }
+.price-features li {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 0.92rem; color: var(--gray-light);
+}
+.price-features li::before {
+  content: '\2713';
+  color: var(--green); font-weight: 700; font-size: 0.85rem; flex-shrink: 0;
+}
+.price-card .btn { width: 100%; justify-content: center; }
+
+/* ---- INSTRUCTOR ---- */
+.instructor { padding: var(--section-pad) 0; }
+.instructor-card {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 48px;
+  align-items: center;
+  background: var(--navy-light);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 18px;
+  padding: 48px;
+}
+.instructor-photo {
+  width: 100%; aspect-ratio: 1;
+  border-radius: 14px;
+  overflow: hidden;
+}
+.instructor-photo img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+}
+.instructor-info h3 { font-size: 1.6rem; font-weight: 800; margin-bottom: 6px; }
+.instructor-role { color: var(--accent); font-weight: 600; font-size: 0.95rem; margin-bottom: 20px; }
+.instructor-info p { color: var(--gray-light); font-size: 1rem; line-height: 1.7; margin-bottom: 14px; }
+.instructor-stats { display: flex; gap: 32px; margin-top: 24px; }
+.stat { text-align: center; }
+.stat-num { font-size: 1.5rem; font-weight: 800; color: var(--accent); }
+.stat-label { font-size: 0.78rem; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+
+/* ---- FAQ ---- */
+.faq {
+  padding: var(--section-pad) 0;
+  background: var(--navy-light);
+  border-top: 1px solid rgba(255,255,255,0.04);
+}
+.faq .section-subtitle { margin-bottom: 48px; }
+.faq-list { max-width: 740px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
+.faq-item {
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: border-color 0.3s;
+}
+.faq-item:hover { border-color: rgba(6,182,212,0.15); }
+.faq-q {
+  width: 100%; text-align: left;
+  background: none; border: none;
+  padding: 22px 24px;
+  font-size: 1rem; font-weight: 600;
+  color: var(--white);
+  cursor: pointer;
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: inherit;
+}
+.faq-q::after {
+  content: '+';
+  font-size: 1.4rem;
+  color: var(--accent);
+  font-weight: 300;
+  transition: transform 0.3s;
+  flex-shrink: 0;
+  margin-left: 16px;
+}
+.faq-item.open .faq-q::after { content: '\2212'; }
+.faq-a {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease, padding 0.35s ease;
+}
+.faq-a-inner {
+  padding: 0 24px 22px;
+  color: var(--gray-light);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+/* ---- CTA FOOTER ---- */
+.cta-footer {
+  padding: var(--section-pad) 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.cta-footer::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(6,182,212,0.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+.cta-footer h2 {
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 800;
+  margin-bottom: 16px;
+}
+.cta-footer p { color: var(--gray-light); font-size: 1.05rem; margin-bottom: 40px; max-width: 520px; margin-left: auto; margin-right: auto; }
+.signup-form {
+  display: flex; gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 500px;
+  margin: 0 auto 20px;
+}
+.signup-form input {
+  flex: 1;
+  min-width: 220px;
+  padding: 14px 20px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: var(--navy-light);
+  color: var(--white);
+  font-size: 1rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.3s;
+}
+.signup-form input::placeholder { color: var(--gray); }
+.signup-form input:focus { border-color: var(--accent); }
+.signup-form button {
+  font-family: inherit;
+}
+.form-note { color: var(--gray); font-size: 0.82rem; }
+
+/* ---- FOOTER ---- */
+footer {
+  padding: 32px 0;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  text-align: center;
+  color: var(--gray);
+  font-size: 0.85rem;
+}
+
+/* ---- MOBILE ---- */
+@media (max-width: 900px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+  .hero-visual { order: -1; }
+  .code-window { max-width: 400px; }
+  .problem-grid { grid-template-columns: 1fr; gap: 40px; }
+  .week-grid { grid-template-columns: repeat(2, 1fr); }
+  .pricing-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
+  .instructor-card { grid-template-columns: 1fr; text-align: center; padding: 32px; }
+  .instructor-photo { max-width: 180px; margin: 0 auto; }
+  .instructor-stats { justify-content: center; }
+}
+
+@media (max-width: 640px) {
+  .nav-links { display: none; }
+  .nav-links.open {
+    display: flex; flex-direction: column;
+    position: absolute; top: 100%; left: 0; right: 0;
+    background: rgba(11,17,32,0.98);
+    backdrop-filter: blur(16px);
+    padding: 24px;
+    gap: 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .hamburger { display: flex; }
+  .week-grid { grid-template-columns: 1fr; }
+  .build-grid { grid-template-columns: repeat(2, 1fr); }
+  .hero-buttons { flex-direction: column; }
+  .hero-buttons .btn { width: 100%; justify-content: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="container">
+    <a href="#" class="nav-brand">AI<span>Builder</span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#curriculum">Curriculum</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#instructor">Instructor</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="#signup" class="nav-cta">Get Started</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-badge reveal"><span class="dot"></span> Now Enrolling</div>
+        <h1 class="reveal reveal-delay-1">Stop Paying Developers.<br><span class="highlight">Build It Yourself With AI.</span></h1>
+        <p class="reveal reveal-delay-2">You know what your business needs. Now you can build it. This hands-on program shows you how to use AI tools to create dashboards, automations, and apps&mdash;even if you've never written a line of code.</p>
+        <div class="hero-buttons reveal reveal-delay-3">
+          <a href="#signup" class="btn btn-primary">Reserve Your Spot &rarr;</a>
+          <a href="#curriculum" class="btn btn-outline">View Curriculum</a>
+        </div>
+      </div>
+      <div class="hero-visual reveal reveal-delay-2">
+        <div class="code-window">
+          <div class="code-window-bar">
+            <span class="dot-r"></span><span class="dot-y"></span><span class="dot-g"></span>
+            <span class="title">my-business-tool.js</span>
+          </div>
+          <div class="code-body">
+            <span class="cm">// You describe it. AI builds it.</span><br><br>
+            <span class="kw">const</span> <span class="fn">dashboard</span> = <span class="fn">buildTool</span>({<br>
+            &nbsp;&nbsp;name: <span class="str">"Client Dashboard"</span>,<br>
+            &nbsp;&nbsp;features: [<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"revenue tracking"</span>,<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"automated reports"</span>,<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"client insights"</span><br>
+            &nbsp;&nbsp;],<br>
+            &nbsp;&nbsp;builtBy: <span class="str">"you + AI"</span><br>
+            });<span class="typing-cursor"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="problem" id="problem">
+  <div class="container">
+    <div class="problem-grid">
+      <div>
+        <p class="section-label reveal">The Problem</p>
+        <h2 class="section-title reveal reveal-delay-1">You Already Know What You Need. Now You Can Build&nbsp;It.</h2>
+        <ul class="pain-list">
+          <li class="pain-item reveal reveal-delay-1">
+            <div class="pain-icon red">&#36;</div>
+            <div>
+              <h4>Hiring a developer? $15K minimum.</h4>
+              <p>A simple custom app costs more than most small businesses can justify. And it takes months to get what you actually asked for.</p>
+            </div>
+          </li>
+          <li class="pain-item reveal reveal-delay-2">
+            <div class="pain-icon yellow">&#9881;</div>
+            <div>
+              <h4>Software subscriptions that almost work</h4>
+              <p>You're paying for 10 tools that each do 70% of what you need. You still end up in spreadsheets and email chains.</p>
+            </div>
+          </li>
+          <li class="pain-item reveal reveal-delay-3">
+            <div class="pain-icon blue">&#9889;</div>
+            <div>
+              <h4>AI closed the gap</h4>
+              <p>You don't need a computer science degree anymore. You describe what you want, AI writes the code. It's that simple now.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="reveal reveal-delay-2">
+        <div class="solution-box">
+          <h3>What if you could just&hellip; build it yourself?</h3>
+          <p>That's exactly what this program teaches. In plain English. No jargon. No prerequisites. Just you, an AI tool, and a clear idea of what your business needs.</p>
+          <ul class="check-list">
+            <li>Zero coding experience needed</li>
+            <li>You describe it, AI builds it</li>
+            <li>You leave every session with a working tool</li>
+            <li>Taught by a business owner, not a programmer</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CURRICULUM -->
+<section class="curriculum" id="curriculum">
+  <div class="container">
+    <p class="section-label reveal">What You'll Learn</p>
+    <h2 class="section-title reveal reveal-delay-1">6 Weeks. 6 Working Tools. No Fluff.</h2>
+    <p class="section-subtitle reveal reveal-delay-2">Each week you learn something new and walk out with a real tool you can use in your business the next day. No theory lectures. Just building.</p>
+    <div class="week-grid">
+      <div class="week-card reveal">
+        <span class="week-icon">&#127758;</span>
+        <span class="week-number">01</span>
+        <h3>AI Landscape + Setup</h3>
+        <p>What AI tools are out there, which ones to use, and how to get started. You'll have everything installed and write your first AI-assisted script before you leave.</p>
+      </div>
+      <div class="week-card reveal reveal-delay-1">
+        <span class="week-icon">&#128172;</span>
+        <span class="week-number">02</span>
+        <h3>Talking to AI (So It Actually Listens)</h3>
+        <p>How to describe what you want so AI gives you exactly what you need. You'll build a working business calculator by the end of the session.</p>
+      </div>
+      <div class="week-card reveal reveal-delay-2">
+        <span class="week-icon">&#129302;</span>
+        <span class="week-number">03</span>
+        <h3>Making AI Work Inside Your Tools</h3>
+        <p>Plug AI directly into the things you build. Make tools that read documents, write emails, and give you answers&mdash;automatically.</p>
+      </div>
+      <div class="week-card reveal reveal-delay-3">
+        <span class="week-icon">&#128736;</span>
+        <span class="week-number">04</span>
+        <h3>Build Something For YOUR Business</h3>
+        <p>This is the week it gets personal. You pick the tool your business actually needs&mdash;a dashboard, a client tracker, a quote generator&mdash;and we build it together.</p>
+      </div>
+      <div class="week-card reveal reveal-delay-4">
+        <span class="week-icon">&#128640;</span>
+        <span class="week-number">05</span>
+        <h3>Put It Live on the Internet</h3>
+        <p>Take the tool you built and put it online so your team or clients can use it. No server rooms. No IT department. Just click and share.</p>
+      </div>
+      <div class="week-card reveal reveal-delay-5">
+        <span class="week-icon">&#9889;</span>
+        <span class="week-number">06</span>
+        <h3>Automate the Boring Stuff</h3>
+        <p>Set up AI to do the repetitive work for you&mdash;reports, follow-ups, data entry. Build systems that run while you sleep.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT YOU'LL BUILD -->
+<section class="build" id="build">
+  <div class="container">
+    <p class="section-label reveal">What You'll Build</p>
+    <h2 class="section-title reveal reveal-delay-1">Stuff You'll Actually Use Tomorrow</h2>
+    <p class="section-subtitle reveal reveal-delay-2">No homework for homework's sake. Everything you build in this program goes straight to work in your business.</p>
+    <div class="build-grid">
+      <div class="build-item reveal">
+        <span class="build-icon">&#128202;</span>
+        <h4>Custom Dashboards</h4>
+        <p>Track KPIs, revenue, and client metrics at a glance</p>
+      </div>
+      <div class="build-item reveal reveal-delay-1">
+        <span class="build-icon">&#128203;</span>
+        <h4>Client Intake Forms</h4>
+        <p>Smart forms that collect and organize client data automatically</p>
+      </div>
+      <div class="build-item reveal reveal-delay-2">
+        <span class="build-icon">&#128196;</span>
+        <h4>Document Analyzers</h4>
+        <p>AI-powered tools that extract insights from PDFs and reports</p>
+      </div>
+      <div class="build-item reveal reveal-delay-3">
+        <span class="build-icon">&#128231;</span>
+        <h4>Email Automations</h4>
+        <p>Systems that send the right message at the right time</p>
+      </div>
+      <div class="build-item reveal reveal-delay-4">
+        <span class="build-icon">&#129518;</span>
+        <h4>Business Calculators</h4>
+        <p>Pricing tools, ROI estimators, and valuation models</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="container">
+    <p class="section-label reveal">Program Options</p>
+    <h2 class="section-title reveal reveal-delay-1">Choose Your Path</h2>
+    <p class="section-subtitle reveal reveal-delay-2">Whether you want a quick start or a deep dive, there's an option that fits.</p>
+    <div class="pricing-grid">
+      <div class="price-card reveal">
+        <h3>Workshop</h3>
+        <p class="price-desc">3-hour intensive session</p>
+        <div class="price-amount">$360</div>
+        <ul class="price-features">
+          <li>3 hours of live, hands-on training</li>
+          <li>Build one complete tool</li>
+          <li>All materials and recordings</li>
+          <li>Environment setup support</li>
+          <li>Certificate of completion</li>
+        </ul>
+        <a href="#signup" class="btn btn-outline">Reserve Your Spot</a>
+      </div>
+      <div class="price-card featured reveal reveal-delay-1">
+        <span class="price-badge">Most Popular</span>
+        <h3>6-Week Cohort</h3>
+        <p class="price-desc">Live online program</p>
+        <div class="price-amount">$1,440</div>
+        <ul class="price-features">
+          <li>6 weekly live sessions (2 hrs each)</li>
+          <li>Build 5+ production tools</li>
+          <li>Small cohort (max 12 students)</li>
+          <li>1-on-1 support between sessions</li>
+          <li>Private community access</li>
+          <li>All recordings and materials</li>
+        </ul>
+        <a href="#signup" class="btn btn-primary">Reserve Your Spot</a>
+      </div>
+      <div class="price-card reveal reveal-delay-2">
+        <h3>Corporate Training</h3>
+        <p class="price-desc">Custom for your team</p>
+        <div class="price-amount">$120<span>/hr</span></div>
+        <ul class="price-features">
+          <li>Tailored curriculum for your industry</li>
+          <li>On-site or virtual delivery</li>
+          <li>Build tools specific to your workflows</li>
+          <li>Team licensing and support</li>
+          <li>Post-training consulting included</li>
+        </ul>
+        <a href="#signup" class="btn btn-outline">Contact Us</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INSTRUCTOR -->
+<section class="instructor" id="instructor">
+  <div class="container">
+    <div class="instructor-card reveal">
+      <div class="instructor-photo"><img src="cody-headshot.jpg" alt="Cody Sullivan"></div>
+      <div class="instructor-info">
+        <h3>Cody Sullivan</h3>
+        <p class="instructor-role">MBA &bull; PhD in Business Finance &bull; Business Advisor</p>
+        <p>Cody Sullivan has been running family businesses for over 20 years. He holds an MBA and a PhD in Business Finance with a background in advanced statistical modeling. He's built multiple startups from the ground up and now serves as a Business Advisor at Cultivate Advisors, helping business owners with growth strategy and exit planning.</p>
+        <p>On top of all that, Cody has personally built 100+ business tools using AI&mdash;dashboards, lead gen systems, document analyzers, automated roadmaps, client questionnaires, financial calculators, and more. Every tool is used by real businesses, every day. He doesn't teach theory&mdash;he teaches what actually works because he does it himself.</p>
+        <div class="instructor-stats">
+          <div class="stat">
+            <div class="stat-num">100+</div>
+            <div class="stat-label">Tools Built</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">20+</div>
+            <div class="stat-label">Years in Business</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">PhD</div>
+            <div class="stat-label">Business Finance</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="container">
+    <p class="section-label reveal">FAQ</p>
+    <h2 class="section-title reveal reveal-delay-1">Frequently Asked Questions</h2>
+    <p class="section-subtitle reveal reveal-delay-2">Everything you need to know before getting started.</p>
+    <div class="faq-list">
+      <div class="faq-item reveal">
+        <button class="faq-q">Do I need any coding experience?</button>
+        <div class="faq-a">
+          <div class="faq-a-inner">Nope. If you can write an email, you can do this. AI writes the code&mdash;you just tell it what you want. That's literally the whole point of the program.</div>
+        </div>
+      </div>
+      <div class="faq-item reveal reveal-delay-1">
+        <button class="faq-q">What tools or software do I need?</button>
+        <div class="faq-a">
+          <div class="faq-a-inner">A laptop and an internet connection. That's it. We set up everything together in the first session&mdash;all the software is free or has a free tier.</div>
+        </div>
+      </div>
+      <div class="faq-item reveal reveal-delay-2">
+        <button class="faq-q">What if I fall behind or miss a session?</button>
+        <div class="faq-a">
+          <div class="faq-a-inner">Everything is recorded. Watch it back whenever you want. Plus you've got the private group chat to ask questions between sessions. Nobody gets left behind.</div>
+        </div>
+      </div>
+      <div class="faq-item reveal reveal-delay-3">
+        <button class="faq-q">Is this only for tech businesses?</button>
+        <div class="faq-a">
+          <div class="faq-a-inner">Not even close. Retail, consulting, agencies, contractors, professional services&mdash;if your business uses spreadsheets or email, this is for you.</div>
+        </div>
+      </div>
+      <div class="faq-item reveal reveal-delay-4">
+        <button class="faq-q">What makes this different from a YouTube tutorial?</button>
+        <div class="faq-a">
+          <div class="faq-a-inner">YouTube shows you how someone else did it. This program has you building your own stuff, live, with help when you get stuck. You leave with tools that work, not tabs full of bookmarks.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FOOTER -->
+<section class="cta-footer" id="signup">
+  <div class="container">
+    <h2 class="reveal">Ready to Build?</h2>
+    <p class="reveal reveal-delay-1">Join the next cohort and start building the tools your business actually needs. Enter your email to get notified when enrollment opens.</p>
+    <form class="signup-form reveal reveal-delay-2" id="signupForm">
+      <input type="email" placeholder="your@email.com" required id="emailInput" autocomplete="email">
+      <button type="submit" class="btn btn-primary">Get Notified</button>
+    </form>
+    <p class="form-note reveal reveal-delay-3">No spam. Just course updates and launch info.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <p>&copy; 2026 AI-Powered Business Building. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+// Intersection Observer for reveal animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Nav scroll effect
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 40);
+}, { passive: true });
+
+// Hamburger menu
+const hamburger = document.getElementById('hamburger');
+const navLinks = document.getElementById('navLinks');
+hamburger.addEventListener('click', () => {
+  navLinks.classList.toggle('open');
+});
+// Close mobile menu on link click
+navLinks.querySelectorAll('a').forEach(a => {
+  a.addEventListener('click', () => navLinks.classList.remove('open'));
+});
+
+// FAQ accordion
+document.querySelectorAll('.faq-q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.parentElement;
+    const answer = item.querySelector('.faq-a');
+    const isOpen = item.classList.contains('open');
+
+    // Close all
+    document.querySelectorAll('.faq-item.open').forEach(openItem => {
+      openItem.classList.remove('open');
+      openItem.querySelector('.faq-a').style.maxHeight = '0';
+    });
+
+    // Open clicked if it was closed
+    if (!isOpen) {
+      item.classList.add('open');
+      answer.style.maxHeight = answer.scrollHeight + 'px';
+    }
+  });
+});
+
+// Email signup form
+document.getElementById('signupForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const email = document.getElementById('emailInput').value;
+  const btn = this.querySelector('button');
+  const original = btn.textContent;
+
+  // Placeholder action — swap with real endpoint later
+  btn.textContent = 'Sent!';
+  btn.style.background = '#34d399';
+  setTimeout(() => {
+    btn.textContent = original;
+    btn.style.background = '';
+  }, 2500);
+
+  // Open mailto as fallback
+  window.location.href = 'mailto:cody.ttek@gmail.com?subject=AI-Powered Business Building — Interest&body=I\'m interested in the AI-Powered Business Building course. My email: ' + encodeURIComponent(email);
+});
+</script>
+</body>
+</html>
