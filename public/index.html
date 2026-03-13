@@ -931,7 +931,7 @@ footer {
     <h2 class="reveal">Ready to Build?</h2>
     <p class="reveal reveal-delay-1">Join the next cohort and start building the tools your business actually needs. Enter your email to get notified when enrollment opens.</p>
     <form class="signup-form reveal reveal-delay-2" id="signupForm">
-      <input type="email" placeholder="your@email.com" required id="emailInput" autocomplete="email">
+      <input type="email" name="email" placeholder="your@email.com" required id="emailInput" autocomplete="email">
       <button type="submit" class="btn btn-primary">Get Notified</button>
     </form>
     <p class="form-note reveal reveal-delay-3">No spam. Just course updates and launch info.</p>
@@ -995,7 +995,7 @@ document.querySelectorAll('.faq-q').forEach(btn => {
   });
 });
 
-// Email signup form — sends to Google Sheet
+// Email signup form — saves to GitHub Issues in private leads repo
 document.getElementById('signupForm').addEventListener('submit', function(e) {
   e.preventDefault();
   const email = document.getElementById('emailInput').value;
@@ -1004,15 +1004,39 @@ document.getElementById('signupForm').addEventListener('submit', function(e) {
   btn.textContent = 'Sending...';
   btn.disabled = true;
 
-  fetch('https://script.google.com/macros/s/AKfycbxR7LmNahfifaLUyKVmy1cqLCubFFDaCgmwfFyyYLaRHrH8cQ3sRXsvjotcP4iPxQ/exec', {
-    method: 'POST',
-    body: JSON.stringify({ email: email }),
-    headers: { 'Content-Type': 'text/plain' }
-  })
-  .then(() => {
-    btn.textContent = 'You\'re In!';
+  const GITHUB_TOKEN = 'GITHUB_TOKEN_PLACEHOLDER';
+  const REPO = 'ttekfishing/ai-curriculum-leads';
+
+  if (GITHUB_TOKEN === 'GITHUB_TOKEN_PLACEHOLDER') {
+    // Token not set yet — just show success and store locally
+    let leads = JSON.parse(localStorage.getItem('ai_curriculum_leads') || '[]');
+    leads.push({ email: email, date: new Date().toISOString() });
+    localStorage.setItem('ai_curriculum_leads', JSON.stringify(leads));
+    btn.textContent = "You're In!";
     btn.style.background = '#34d399';
     document.getElementById('emailInput').value = '';
+    setTimeout(() => { btn.textContent = original; btn.style.background = ''; btn.disabled = false; }, 3000);
+    return;
+  }
+
+  fetch('https://api.github.com/repos/' + REPO + '/issues', {
+    method: 'POST',
+    headers: { 'Authorization': 'token ' + GITHUB_TOKEN, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      title: 'Lead: ' + email,
+      body: '**Email:** ' + email + '\\n**Date:** ' + new Date().toLocaleString() + '\\n**Source:** Landing Page',
+      labels: ['lead']
+    })
+  })
+  .then(r => {
+    if (r.ok) {
+      btn.textContent = "You're In!";
+      btn.style.background = '#34d399';
+      document.getElementById('emailInput').value = '';
+    } else {
+      btn.textContent = 'Try Again';
+      btn.style.background = '#f87171';
+    }
     setTimeout(() => { btn.textContent = original; btn.style.background = ''; btn.disabled = false; }, 3000);
   })
   .catch(() => {
