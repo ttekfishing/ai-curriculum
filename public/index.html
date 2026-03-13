@@ -995,23 +995,31 @@ document.querySelectorAll('.faq-q').forEach(btn => {
   });
 });
 
-// Email signup form
+// Email signup form — sends to Google Sheet
 document.getElementById('signupForm').addEventListener('submit', function(e) {
   e.preventDefault();
   const email = document.getElementById('emailInput').value;
   const btn = this.querySelector('button');
   const original = btn.textContent;
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
 
-  // Placeholder action — swap with real endpoint later
-  btn.textContent = 'Sent!';
-  btn.style.background = '#34d399';
-  setTimeout(() => {
-    btn.textContent = original;
-    btn.style.background = '';
-  }, 2500);
-
-  // Open mailto as fallback
-  window.location.href = 'mailto:cody.ttek@gmail.com?subject=AI-Powered Business Building — Interest&body=I\'m interested in the AI-Powered Business Building course. My email: ' + encodeURIComponent(email);
+  fetch('https://script.google.com/macros/s/AKfycbxR7LmNahfifaLUyKVmy1cqLCubFFDaCgmwfFyyYLaRHrH8cQ3sRXsvjotcP4iPxQ/exec', {
+    method: 'POST',
+    body: JSON.stringify({ email: email }),
+    headers: { 'Content-Type': 'text/plain' }
+  })
+  .then(() => {
+    btn.textContent = 'You\'re In!';
+    btn.style.background = '#34d399';
+    document.getElementById('emailInput').value = '';
+    setTimeout(() => { btn.textContent = original; btn.style.background = ''; btn.disabled = false; }, 3000);
+  })
+  .catch(() => {
+    btn.textContent = 'Try Again';
+    btn.style.background = '#f87171';
+    setTimeout(() => { btn.textContent = original; btn.style.background = ''; btn.disabled = false; }, 2500);
+  });
 });
 </script>
 </body>
